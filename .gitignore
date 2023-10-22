@@ -195,3 +195,4 @@ nbdist/
 .idea/jarRepositories.xml
 .idea/misc.xml
 .vscode/settings.json
+.idea/vcs.xml
