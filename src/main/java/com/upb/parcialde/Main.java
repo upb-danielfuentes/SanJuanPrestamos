@@ -4,38 +4,49 @@ import javax.swing.*;
 
 public class Main {
     public static void main(String[] args) {
-        new EstudianteDAO();
-        new ComputadoraDAO();
+        EstudianteDAO estudianteDAO = new EstudianteDAO();
+        ComputadoraDAO computadoraDAO = new ComputadoraDAO();
+        PrestamoDAO prestamoDAO = new PrestamoDAO();
+
         int opcion;
         do {
-            opcion = Integer.parseInt(JOptionPane.showInputDialog(
-                    "Menu SuperDotado de Gestión de Préstamos\n" +
-                            "1. MENU ESTUDIANTES 🧑🏻‍🏫 \n" +
-                            "2. MENU COMPUTADOR 🧑🏻‍💻 \n" +
-                            "3. MENU GESTIÓN DE PRÉSTAMOS \n" +
-                            "4. IMPRIMIR INVENTARIO TOTAL\n" +
-                            "5. 💔 SALIR DEL PROGRAMA 💔 \n" +
-                            "Ingrese su opción: "));
+            opcion = obtenerOpcionMenu();
 
             switch (opcion) {
                 case 1:
-                    EstudianteDAO.gestionEstudiantes();
+                    estudianteDAO.gestionEstudiantes();
                     break;
                 case 2:
-                    ComputadoraDAO.gestionComputadoras();
+                    computadoraDAO.gestionComputadoras();
                     break;
                 case 3:
-                    PrestamoDAO.gestionPrestamos();
+                    prestamoDAO.gestionPrestamos();
                     break;
                 case 4:
-                    PrestamoDAO.imprimirInventarioTotal();
+                    prestamoDAO.imprimirInventarioTotal();
                     break;
                 case 5:
                     JOptionPane.showMessageDialog(null, "Saliendo del programa.");
                     break;
                 default:
-                    JOptionPane.showMessageDialog(null, "Opción no válida.");
+                    JOptionPane.showMessageDialog(null, "Opción no válida. Por favor, elija una opción válida.");
             }
         } while (opcion != 5);
+    }
+
+    public static int obtenerOpcionMenu() {
+        try {
+            return Integer.parseInt(JOptionPane.showInputDialog(
+                    "Menú de Gestión de Préstamos\n" +
+                            "1. Menú de Estudiantes 🧑🏻‍🏫 \n" +
+                            "2. Menú de Computadoras 🧑🏻‍💻\n" +
+                            "3. Menú de Préstamos 🖥️ \n" +
+                            "4. Imprimir Inventario Total 📠 \n" +
+                            "5. 💔 Salir del Programa 💔\n" +
+                            "Ingrese su opción: "));
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Por favor, ingrese un número válido.");
+            return obtenerOpcionMenu(); // Llamada recursiva para obtener una opción válida.
+        }
     }
 }

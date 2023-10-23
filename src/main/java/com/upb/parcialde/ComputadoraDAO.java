@@ -1,17 +1,13 @@
 package com.upb.parcialde;
 
 import javax.swing.*;
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ComputadoraDAO {
-    private static String cadena;
-    private static Vector<ComputadoraDTO> vectorcompu;
+    private static List<ComputadoraDTO> arraylistcomputadora = new ArrayList<>();
 
-    static {
-        vectorcompu = new Vector<ComputadoraDTO>();
-    }
-
-    public static void gestionComputadoras() {
+    public void gestionComputadoras() {
         int opcion;
         do {
             opcion = Integer.parseInt(JOptionPane.showInputDialog(
@@ -50,28 +46,30 @@ public class ComputadoraDAO {
 
     public static void registrarComputadora() {
         while (JOptionPane.showConfirmDialog(null, "¿Desea agregar un computador?") == JOptionPane.YES_OPTION) {
-            vectorcompu.addElement(new ComputadoraDTO(
-                    JOptionPane.showInputDialog("Ingrese el serial del PC"),
-                    JOptionPane.showInputDialog("Ingrese la marca del PC"),
-                    Float.parseFloat(JOptionPane.showInputDialog("Ingrese el tamaño del PC (DECIMALES CON PUNTO))")),
-                    Float.parseFloat(JOptionPane.showInputDialog("Ingrese el precio del PC (DECIMALES CON PUNTO))")),
-                    JOptionPane.showInputDialog("Ingrese el sistema operativo del PC"),
-                    JOptionPane.showInputDialog("Ingrese el procesador del PC")));
+            String serial = JOptionPane.showInputDialog("Ingrese el serial del PC");
+            String marca = JOptionPane.showInputDialog("Ingrese la marca del PC");
+            float tamano = Float.parseFloat(JOptionPane.showInputDialog("Ingrese el tamaño del PC (DECIMALES CON PUNTO)"));
+            float precio = Float.parseFloat(JOptionPane.showInputDialog("Ingrese el precio del PC (DECIMALES CON PUNTO)"));
+            String sistemaOperativo = JOptionPane.showInputDialog("Ingrese el sistema operativo del PC");
+            String procesador = JOptionPane.showInputDialog("Ingrese el procesador del PC");
+
+            ComputadoraDTO computadora = new ComputadoraDTO(serial, marca, tamano, precio, sistemaOperativo, procesador);
+            arraylistcomputadora.add(computadora);
         }
-        if (vectorcompu.isEmpty())
-            cadena = "💔 No se agregó ningún PC 💔";
-        else
-            cadena = "Se agregaron " + vectorcompu.size() + " computadoras al sistema";
-        JOptionPane.showMessageDialog(null, cadena);
+
+        if (arraylistcomputadora.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "💔 No se agregó ningún PC 💔");
+        } else {
+            JOptionPane.showMessageDialog(null, "Se agregaron " + arraylistcomputadora.size() + " computadoras al sistema");
+        }
     }
 
     public static void modificarComputadora() {
-        cadena = "";
-        String idpc = JOptionPane.showInputDialog("Ingrese el serial del PC a modificar");
+        String serial = JOptionPane.showInputDialog("Ingrese el serial del PC a modificar");
         boolean encontrado = false;
-        
-        for (ComputadoraDTO computadora : vectorcompu) {
-            if (computadora.getSerial().equalsIgnoreCase(idpc)) {
+
+        for (ComputadoraDTO computadora : arraylistcomputadora) {
+            if (computadora.getSerial().equals(serial)) {
                 int opcion = Integer.parseInt(JOptionPane.showInputDialog(
                         "Elija la información registrada a cambiar\n"
                                 + "1. Marca del PC\n"
@@ -83,103 +81,92 @@ public class ComputadoraDAO {
                 switch (opcion) {
                     case 1:
                         computadora.setMarca(JOptionPane.showInputDialog("Ingrese la nueva marca del PC"));
-                        cadena = "Marca actualizada exitosamente";
                         break;
                     case 2:
                         computadora.setTamano(Float.parseFloat(JOptionPane.showInputDialog("Ingrese un nuevo tamaño")));
-                        cadena = "Tamaño actualizado exitosamente";
                         break;
                     case 3:
                         computadora.setPrecio(Float.parseFloat(JOptionPane.showInputDialog("Ingrese el nuevo precio")));
-                        cadena = "Precio actualizado exitosamente";
                         break;
                     case 4:
                         computadora.setSis(JOptionPane.showInputDialog("Ingrese nuevo sistema operativo"));
-                        cadena = "Sistema operativo actualizado exitosamente";
                         break;
                     case 5:
                         computadora.setProcesador(JOptionPane.showInputDialog("Ingrese nuevo procesador"));
-                        cadena = "Procesador actualizado exitosamente";
                         break;
                     case 6:
-                        cadena = "No se hizo ningún cambio";
                         break;
                     default:
-                        cadena = "Elección incorrecta";
+                        JOptionPane.showMessageDialog(null, "Elección incorrecta");
                 }
                 encontrado = true;
                 break;
             }
         }
-        
+
         if (!encontrado) {
-            cadena = "💔 No se encontró PC con ese serial 💔";
+            JOptionPane.showMessageDialog(null, "💔 No se encontró PC con ese serial 💔");
+        } else {
+            JOptionPane.showMessageDialog(null, "Información del PC actualizada exitosamente");
         }
-        
-        JOptionPane.showMessageDialog(null, cadena);
     }
 
     public static void buscarComputadoraPorSerial() {
-        cadena = "";
-        String idpc = JOptionPane.showInputDialog("Ingrese el serial del PC a buscar");
+        String serial = JOptionPane.showInputDialog("Ingrese el serial del PC a buscar");
         boolean encontrado = false;
 
-        for (ComputadoraDTO computadora : vectorcompu) {
-            if (computadora.getSerial().equalsIgnoreCase(idpc)) {
-                cadena = "Serial del PC: " + computadora.getSerial() + "\n" +
+        for (ComputadoraDTO computadora : arraylistcomputadora) {
+            if (computadora.getSerial().equals(serial)) {
+                String infoComputadora = "Serial del PC: " + computadora.getSerial() + "\n" +
                         "Marca del PC: " + computadora.getMarca() + "\n" +
                         "Tamaño del PC: " + computadora.getTamano() + "\n" +
                         "Precio del PC: " + computadora.getPrecio() + "\n" +
                         "Sistema operativo: " + computadora.getSis() + "\n" +
                         "Procesador del PC: " + computadora.getProcesador() + "\n";
+                JOptionPane.showMessageDialog(null, infoComputadora);
                 encontrado = true;
                 break;
             }
         }
 
         if (!encontrado) {
-            cadena = "💔 No se encontró PC con ese serial 💔";
+            JOptionPane.showMessageDialog(null, "💔 No se encontró PC con ese serial 💔");
         }
-
-        JOptionPane.showMessageDialog(null, cadena);
     }
 
     public static void eliminarComputadora() {
-        cadena = "";
-        String idpc = JOptionPane.showInputDialog("Ingrese el serial del PC a eliminar");
+        String serial = JOptionPane.showInputDialog("Ingrese el serial del PC a eliminar");
         boolean eliminado = false;
 
-        for (ComputadoraDTO computadora : vectorcompu) {
-            if (computadora.getSerial().equalsIgnoreCase(idpc)) {
-                vectorcompu.remove(computadora);
-                cadena = "PC eliminado de la base de datos";
+        for (ComputadoraDTO computadora : arraylistcomputadora) {
+            if (computadora.getSerial().equals(serial)) {
+                arraylistcomputadora.remove(computadora);
+                JOptionPane.showMessageDialog(null, "PC eliminado de la base de datos");
                 eliminado = true;
                 break;
             }
         }
 
         if (!eliminado) {
-            cadena = "No se encontró PC con ese serial";
+            JOptionPane.showMessageDialog(null, "No se encontró PC con ese serial");
         }
-
-        JOptionPane.showMessageDialog(null, cadena);
     }
 
     public static void imprimirComputadoras() {
-        cadena = "LISTA DE COMPUTADORES\n";
-        if (!vectorcompu.isEmpty()) {
-            for (ComputadoraDTO computadora : vectorcompu) {
-                cadena += "Serial del PC: " + computadora.getSerial() + "\n" +
-                        "Marca del PC: " + computadora.getMarca() + "\n" +
-                        "Tamaño del PC: " + computadora.getTamano() + "\n" +
-                        "Precio del PC: " + computadora.getPrecio() + "\n" +
-                        "Sistema operativo: " + computadora.getSis() + "\n" +
-                        "Procesador del PC: " + computadora.getProcesador() + "\n" +
-                        "_________________________________________________\n";
+        StringBuilder cadena = new StringBuilder("LISTA DE COMPUTADORES\n");
+        if (!arraylistcomputadora.isEmpty()) {
+            for (ComputadoraDTO computadora : arraylistcomputadora) {
+                cadena.append("Serial del PC: ").append(computadora.getSerial()).append("\n")
+                        .append("Marca del PC: ").append(computadora.getMarca()).append("\n")
+                        .append("Tamaño del PC: ").append(computadora.getTamano()).append("\n")
+                        .append("Precio del PC: ").append(computadora.getPrecio()).append("\n")
+                        .append("Sistema operativo: ").append(computadora.getSis()).append("\n")
+                        .append("Procesador del PC: ").append(computadora.getProcesador()).append("\n")
+                        .append("_________________________________________________\n");
             }
         } else {
-            cadena = "No hay computadoras registradas";
+            cadena.append("No hay computadoras registradas");
         }
-        JOptionPane.showMessageDialog(null, cadena);
+        JOptionPane.showMessageDialog(null, cadena.toString());
     }
 }

@@ -1,22 +1,13 @@
 package com.upb.parcialde;
 
 import javax.swing.*;
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 public class EstudianteDAO {
-    private static String cadena;
-    private static Vector<EstudianteDTO> vectorestu;
+    private static List<EstudianteDTO> arraylistestudiante = new ArrayList<>();
 
-    static {
-        vectorestu = new Vector<EstudianteDTO>();
-    }
-
-    public EstudianteDAO() {
-        cadena = "";
-        vectorestu = new Vector<EstudianteDTO>();
-    }
-
-    public static void gestionEstudiantes() {
+    public void gestionEstudiantes() {
         int opcion;
         do {
             opcion = Integer.parseInt(JOptionPane.showInputDialog(
@@ -55,29 +46,30 @@ public class EstudianteDAO {
 
     public static void registrarEstudiante() {
         while (JOptionPane.showConfirmDialog(null, "¿Desea agregar un estudiante?") == JOptionPane.YES_OPTION) {
-            vectorestu.addElement(new EstudianteDTO(
-                    JOptionPane.showInputDialog("Ingrese la cédula del estudiante"),
-                    JOptionPane.showInputDialog("Ingrese el nombre del estudiante"),
-                    JOptionPane.showInputDialog("Ingrese el apellido del estudiante"),
-                    JOptionPane.showInputDialog("Ingrese el teléfono del estudiante"),
-                    Integer.parseInt(
-                            JOptionPane.showInputDialog("Ingrese el número del semestre actual del estudiante")),
-                    Float.parseFloat(JOptionPane.showInputDialog("Ingrese el promedio actual del estudiante")),
-                    JOptionPane.showInputDialog("¿Cuál es el número serial del estudiante?")));
+            String cedula = JOptionPane.showInputDialog("Ingrese la cédula del estudiante");
+            String nombre = JOptionPane.showInputDialog("Ingrese el nombre del estudiante");
+            String apellido = JOptionPane.showInputDialog("Ingrese el apellido del estudiante");
+            String telefono = JOptionPane.showInputDialog("Ingrese el teléfono del estudiante");
+            int numSemestre = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el número del semestre actual del estudiante"));
+            float promedio = Float.parseFloat(JOptionPane.showInputDialog("Ingrese el promedio actual del estudiante"));
+            String serial = JOptionPane.showInputDialog("¿Cuál es el número serial del estudiante?");
+
+            EstudianteDTO estudiante = new EstudianteDTO(cedula, nombre, apellido, telefono, numSemestre, promedio, serial);
+            arraylistestudiante.add(estudiante);
         }
-        if (vectorestu.isEmpty())
-            cadena = "💔 No se agregó ningún estudiante 💔";
-        else
-            cadena = "Se agregaron " + vectorestu.size() + " estudiantes al sistema";
-        JOptionPane.showMessageDialog(null, cadena);
+
+        if (arraylistestudiante.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "💔 No se agregó ningún estudiante 💔");
+        } else {
+            JOptionPane.showMessageDialog(null, "Se agregaron " + arraylistestudiante.size() + " estudiantes al sistema");
+        }
     }
 
     public static void modificarEstudiante() {
-        cadena = "";
         String cedula = JOptionPane.showInputDialog("Ingrese la cédula del estudiante a modificar");
         boolean encontrado = false;
 
-        for (EstudianteDTO estudiante : vectorestu) {
+        for (EstudianteDTO estudiante : arraylistestudiante) {
             if (estudiante.getCedula().equalsIgnoreCase(cedula)) {
                 int opcion = Integer.parseInt(JOptionPane.showInputDialog(
                         "Elija la información registrada a cambiar\n"
@@ -91,35 +83,26 @@ public class EstudianteDAO {
                 switch (opcion) {
                     case 1:
                         estudiante.setNombre(JOptionPane.showInputDialog("Ingrese el nuevo nombre del estudiante"));
-                        cadena = "Nombre actualizado exitosamente";
                         break;
                     case 2:
                         estudiante.setApellido(JOptionPane.showInputDialog("Ingrese un nuevo apellido"));
-                        cadena = "Apellido actualizado exitosamente";
                         break;
                     case 3:
                         estudiante.setTel(JOptionPane.showInputDialog("Ingrese el nuevo teléfono"));
-                        cadena = "Teléfono actualizado exitosamente";
                         break;
                     case 4:
-                        estudiante.setNumsem(Integer.parseInt(
-                                JOptionPane.showInputDialog("Ingrese el nuevo semestre que se está cursando")));
-                        cadena = "Número de semestre actualizado exitosamente";
+                        estudiante.setNumsem(Integer.parseInt(JOptionPane.showInputDialog("Ingrese el nuevo semestre que se está cursando")));
                         break;
                     case 5:
-                        estudiante.setPromacum(
-                                Float.parseFloat(JOptionPane.showInputDialog("Ingrese el nuevo promedio total")));
-                        cadena = "Promedio actualizado exitosamente";
+                        estudiante.setPromacum(Float.parseFloat(JOptionPane.showInputDialog("Ingrese el nuevo promedio total")));
                         break;
                     case 6:
                         estudiante.setSerial(JOptionPane.showInputDialog("Ingrese el nuevo número serial"));
-                        cadena = "Número serial actualizado exitosamente";
                         break;
                     case 7:
-                        cadena = "No se hizo ningún cambio";
                         break;
                     default:
-                        cadena = "Elección incorrecta";
+                        JOptionPane.showMessageDialog(null, "Elección incorrecta");
                 }
                 encontrado = true;
                 break;
@@ -127,76 +110,71 @@ public class EstudianteDAO {
         }
 
         if (!encontrado) {
-            cadena = "💔 No se encontró estudiante con esa cédula 💔";
+            JOptionPane.showMessageDialog(null, "💔 No se encontró estudiante con esa cédula 💔");
+        } else {
+            JOptionPane.showMessageDialog(null, "Información del estudiante actualizada exitosamente");
         }
-
-        JOptionPane.showMessageDialog(null, cadena);
     }
 
     public static void buscarEstudiantePorCedula() {
-        cadena = "";
         String cedula = JOptionPane.showInputDialog("Ingrese la cédula del estudiante a buscar");
         boolean encontrado = false;
 
-        for (EstudianteDTO estudiante : vectorestu) {
+        for (EstudianteDTO estudiante : arraylistestudiante) {
             if (estudiante.getCedula().equalsIgnoreCase(cedula)) {
-                cadena = "Cédula del estudiante: " + estudiante.getCedula() + "\n" +
+                String infoEstudiante = "Cédula del estudiante: " + estudiante.getCedula() + "\n" +
                         "Nombre del estudiante: " + estudiante.getNombre() + "\n" +
                         "Apellido del estudiante: " + estudiante.getApellido() + "\n" +
                         "Teléfono del estudiante: " + estudiante.getTel() + "\n" +
                         "Semestre actual del estudiante: " + estudiante.getNumsem() + "\n" +
                         "Promedio actual del estudiante: " + estudiante.getPromacum() + "\n" +
                         "Número serial del estudiante: " + estudiante.getSerial() + "\n";
+                JOptionPane.showMessageDialog(null, infoEstudiante);
                 encontrado = true;
                 break;
             }
         }
 
         if (!encontrado) {
-            cadena = "💔 No se encontró estudiante con esa cédula 💔";
+            JOptionPane.showMessageDialog(null, "💔 No se encontró estudiante con esa cédula 💔");
         }
-
-        JOptionPane.showMessageDialog(null, cadena);
     }
 
     public static void eliminarEstudiante() {
-        cadena = "";
         String cedula = JOptionPane.showInputDialog("Ingrese la cédula del estudiante a eliminar");
         boolean eliminado = false;
 
-        for (EstudianteDTO estudiante : vectorestu) {
+        for (EstudianteDTO estudiante : arraylistestudiante) {
             if (estudiante.getCedula().equalsIgnoreCase(cedula)) {
-                vectorestu.remove(estudiante);
-                cadena = "Estudiante eliminado de la base de datos";
+                arraylistestudiante.remove(estudiante);
+                JOptionPane.showMessageDialog(null, "Estudiante eliminado de la base de datos");
                 eliminado = true;
                 break;
             }
         }
 
         if (!eliminado) {
-            cadena = "💔 No se encontró estudiante con esa cédula 💔";
+            JOptionPane.showMessageDialog(null, "💔 No se encontró estudiante con esa cédula 💔");
         }
-
-        JOptionPane.showMessageDialog(null, cadena);
     }
 
     public static void imprimirEstudiantes() {
-        cadena = "LISTA DE ESTUDIANTES\n";
-        for (EstudianteDTO estudiante : vectorestu) {
-            cadena += "Cédula del estudiante: " + estudiante.getCedula() + "\n" +
-                    "Nombre del estudiante: " + estudiante.getNombre() + "\n" +
-                    "Apellido del estudiante: " + estudiante.getApellido() + "\n" +
-                    "Teléfono del estudiante: " + estudiante.getTel() + "\n" +
-                    "Semestre actual del estudiante: " + estudiante.getNumsem() + "\n" +
-                    "Promedio actual del estudiante: " + estudiante.getPromacum() + "\n" +
-                    "Número serial del estudiante: " + estudiante.getSerial() + "\n" +
-                    "_________________________________________________\n";
+        StringBuilder cadena = new StringBuilder("LISTA DE ESTUDIANTES\n");
+        for (EstudianteDTO estudiante : arraylistestudiante) {
+            cadena.append("Cédula del estudiante: ").append(estudiante.getCedula()).append("\n")
+                    .append("Nombre del estudiante: ").append(estudiante.getNombre()).append("\n")
+                    .append("Apellido del estudiante: ").append(estudiante.getApellido()).append("\n")
+                    .append("Teléfono del estudiante: ").append(estudiante.getTel()).append("\n")
+                    .append("Semestre actual del estudiante: ").append(estudiante.getNumsem()).append("\n")
+                    .append("Promedio actual del estudiante: ").append(estudiante.getPromacum()).append("\n")
+                    .append("Número serial del estudiante: ").append(estudiante.getSerial()).append("\n")
+                    .append("_________________________________________________\n");
         }
 
-        if (vectorestu.isEmpty()) {
-            cadena = "💔 No hay estudiantes registrados 💔";
+        if (arraylistestudiante.isEmpty()) {
+            cadena.append("💔 No hay estudiantes registrados 💔");
         }
 
-        JOptionPane.showMessageDialog(null, cadena);
+        JOptionPane.showMessageDialog(null, cadena.toString());
     }
 }

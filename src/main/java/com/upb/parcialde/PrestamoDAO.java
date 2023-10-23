@@ -2,15 +2,14 @@ package com.upb.parcialde;
 
 import javax.swing.*;
 import java.util.ArrayList;
-import java.util.Vector;
+import java.util.List;
 
 public class PrestamoDAO {
+    private static List<PrestamoDTO> prestamos = new ArrayList<>();
+    private static List<EstudianteDTO> estudiantes = new ArrayList<>();
+    private static List<ComputadoraDTO> computadoras = new ArrayList<>();
 
-    private static Vector<PrestamoDTO> prestamos = new Vector<>();
-    private static Vector<EstudianteDTO> estudiantes = new Vector<>();
-    private static Vector<ComputadoraDTO> computadoras = new Vector<>();
-
-    public static void gestionPrestamos() {
+    public void gestionPrestamos() {
         int opcion;
         do {
             opcion = Integer.parseInt(JOptionPane.showInputDialog(
@@ -56,19 +55,18 @@ public class PrestamoDAO {
             return;
         }
 
-        String serialPortatil = JOptionPane.showInputDialog("Ingrese el serial del portátil:");
-        ComputadoraDTO portatil = buscarPortatilPorSerial(serialPortatil);
+        String serialComputadora = JOptionPane.showInputDialog("Ingrese el serial del portátil:");
+        ComputadoraDTO computadora = buscarComputadoraPorSerial(serialComputadora);
 
-        if (portatil == null) {
+        if (computadora == null) {
             JOptionPane.showMessageDialog(null, "La computadora no existe.");
             return;
         }
 
-        PrestamoDTO nuevoPrestamo = new PrestamoDTO(estudiante, portatil);
+        PrestamoDTO nuevoPrestamo = new PrestamoDTO(estudiante, computadora);
         prestamos.add(nuevoPrestamo);
         JOptionPane.showMessageDialog(null, "Préstamo registrado con éxito.");
     }
-
 
     public static void modificarPrestamo() {
         String cedulaOSerial = JOptionPane.showInputDialog("Ingrese la cédula del estudiante o el serial de la computadora:");
@@ -120,7 +118,6 @@ public class PrestamoDAO {
         }
     }
 
-
     public static void devolucionEquipo() {
         String cedulaOSerial = JOptionPane.showInputDialog("Ingrese la cédula del estudiante o el serial de la computadora, que va a devolver:");
         EstudianteDTO estudiante = buscarEstudiantePorCedula(cedulaOSerial);
@@ -133,7 +130,7 @@ public class PrestamoDAO {
         if (estudiante != null || computadora != null) {
             PrestamoDTO prestamoEncontrado = null;
             for (PrestamoDTO prestamo : prestamos) {
-                if (prestamo.getEstudiante().equals(estudiante) && prestamo.getPortatil().equals(computadora)) {
+                if (prestamo.getEstudiante().equals(estudiante) && prestamo.getComputadora().equals(computadora)) {
                     prestamoEncontrado = prestamo;
                     break;
                 }
@@ -150,7 +147,6 @@ public class PrestamoDAO {
         }
     }
 
-
     public static void buscarEquipo() {
         String cedulaOSerial = JOptionPane.showInputDialog("Ingrese la cédula del estudiante o el serial de la computadora:");
         EstudianteDTO estudiante = buscarEstudiantePorCedula(cedulaOSerial);
@@ -162,8 +158,8 @@ public class PrestamoDAO {
 
         if (estudiante != null || computadora != null) {
             for (PrestamoDTO prestamo : prestamos) {
-                if (prestamo.getEstudiante().equals(estudiante) && prestamo.getPortatil().equals(computadora)) {
-                    JOptionPane.showMessageDialog(null, "Préstamo encontrado:\nCédula del estudiante: " + prestamo.getEstudiante().getCedula() + "\nSerial de la computadora: " + prestamo.getPortatil().getSerial());
+                if (prestamo.getEstudiante().equals(estudiante) && prestamo.getComputadora().equals(computadora)) {
+                    JOptionPane.showMessageDialog(null, "Préstamo encontrado:\nCédula del estudiante: " + prestamo.getEstudiante().getCedula() + "\nSerial de la computadora: " + prestamo.getComputadora().getSerial());
                     return;
                 }
             }
@@ -173,22 +169,10 @@ public class PrestamoDAO {
         }
     }
 
-
-    public static ComputadoraDTO buscarPortatilPorSerial(String serial) {
-        for (ComputadoraDTO portatil : computadoras) {
-            if (portatil.getSerial().equalsIgnoreCase(serial)) {
-                JOptionPane.showMessageDialog(null, "Computadora encontrada:\nSerial: " + portatil.getSerial() + "\nMarca: " + portatil.getMarca());
-                return portatil;
-            }
-        }
-        JOptionPane.showMessageDialog(null, "Computadora no encontrada.");
-        return null;
-    }
-
-    public static EstudianteDTO buscarEstudiantePorCedula(String cedula) {
+    private static EstudianteDTO buscarEstudiantePorCedula(String cedula) {
         for (EstudianteDTO estudiante : estudiantes) {
-            if (estudiante.getCedula().equalsIgnoreCase(cedula)) {
-                JOptionPane.showMessageDialog(null, "Estudiante encontrado:\nCédula: " + estudiante.getCedula() + "\nNombre: " + estudiante.getNombre() + " " + estudiante.getApellido());
+            if (estudiante.getCedula().equals(cedula)) {
+                JOptionPane.showMessageDialog(null, "Estudiante encontrado:\nCédula: " + estudiante.getCedula() + "\nNombre: " + estudiante.getNombre());
                 return estudiante;
             }
         }
@@ -205,17 +189,17 @@ public class PrestamoDAO {
         StringBuilder prestamosText = new StringBuilder("Lista de Préstamos:\n");
         for (PrestamoDTO prestamo : prestamos) {
             EstudianteDTO estudiante = prestamo.getEstudiante();
-            ComputadoraDTO portatil = prestamo.getPortatil();
+            ComputadoraDTO computadora = prestamo.getComputadora();
 
             prestamosText.append("Estudiante: ").append(estudiante.getNombre()).append(" ").append(estudiante.getApellido()).append("\n");
-            prestamosText.append("Portátil: ").append(portatil.getMarca()).append(" (Serial: ").append(portatil.getSerial()).append(")\n");
+            prestamosText.append("Portátil: ").append(computadora.getMarca()).append(" (Serial: ").append(computadora.getSerial()).append(")\n");
             prestamosText.append("Fecha de Préstamo: ").append(prestamo.getFechaPrestamo()).append("\n\n");
         }
 
         JOptionPane.showMessageDialog(null, prestamosText.toString());
     }
 
-    public static void imprimirInventarioTotal() {
+    public void imprimirInventarioTotal() {
         StringBuilder inventarioString = new StringBuilder("Inventario Total:\n\n");
         inventarioString.append("Estudiantes:\n");
         for (EstudianteDTO estudiante : estudiantes) {
@@ -230,7 +214,7 @@ public class PrestamoDAO {
 
     private static ComputadoraDTO buscarComputadoraPorSerial(String serial) {
         for (ComputadoraDTO computadora : computadoras) {
-            if (computadora.getSerial().equals(serial)) {
+            if (computadora.getSerial().equalsIgnoreCase(serial)) {
                 JOptionPane.showMessageDialog(null, "Computadora encontrada:\nSerial: " + computadora.getSerial() + "\nMarca: " + computadora.getMarca());
                 return computadora;
             }

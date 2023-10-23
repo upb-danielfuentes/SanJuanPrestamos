@@ -3,12 +3,12 @@ import java.util.Date;
 
 public class PrestamoDTO {
     private EstudianteDTO estudiante;
-    private ComputadoraDTO portatil;
+    private ComputadoraDTO computadora;
     private Date fechaPrestamo;
 
-    public PrestamoDTO(EstudianteDTO estudiante, ComputadoraDTO portatil) {
+    public PrestamoDTO(EstudianteDTO estudiante, ComputadoraDTO computadora) {
         this.estudiante = estudiante;
-        this.portatil = portatil;
+        this.computadora = computadora;
         this.fechaPrestamo = new Date();
     }
 
@@ -20,12 +20,12 @@ public class PrestamoDTO {
         this.estudiante = estudiante;
     }
 
-    public ComputadoraDTO getPortatil() {
-        return portatil;
+    public ComputadoraDTO getComputadora() {
+        return computadora;
     }
 
-    public void setPortatil(ComputadoraDTO portatil) {
-        this.portatil = portatil;
+    public void setPortatil(ComputadoraDTO computadora) {
+        this.computadora = computadora;
     }
 
     public Date getFechaPrestamo() {
