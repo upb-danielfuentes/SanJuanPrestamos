@@ -46,7 +46,7 @@ public class Main {
                             "Ingrese su opción: "));
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "Por favor, ingrese un número válido.");
-            return obtenerOpcionMenu(); // Llamada recursiva para obtener una opción válida.
+            return obtenerOpcionMenu();
         }
     }
 }

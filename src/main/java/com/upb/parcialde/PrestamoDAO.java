@@ -24,7 +24,9 @@ public class PrestamoDAO {
 
             switch (opcion) {
                 case 1:
-                    registrarPrestamo();
+                    String cedulaEstudiante = JOptionPane.showInputDialog("Ingrese la cédula del estudiante:");
+                    String serialComputadora = JOptionPane.showInputDialog("Ingrese el serial del portátil:");
+                    registrarPrestamo(cedulaEstudiante, serialComputadora);
                     break;
                 case 2:
                     modificarPrestamo();
@@ -46,26 +48,28 @@ public class PrestamoDAO {
         } while (opcion != 6);
     }
 
-    public static void registrarPrestamo() {
-        String cedulaEstudiante = JOptionPane.showInputDialog("Ingrese la cédula del estudiante:");
-        EstudianteDTO estudiante = buscarEstudiantePorCedula(cedulaEstudiante);
+    public static void registrarPrestamo(String cedulaEstudiante, String serialComputadora) {
+        try {
+            EstudianteDTO estudiante = buscarEstudiantePorCedula(cedulaEstudiante);
 
-        if (estudiante == null) {
-            JOptionPane.showMessageDialog(null, "El estudiante no existe.");
-            return;
+            if (estudiante == null) {
+                JOptionPane.showMessageDialog(null, "El estudiante no existe.");
+                return;
+            }
+
+            ComputadoraDTO computadora = buscarComputadoraPorSerial(serialComputadora);
+
+            if (computadora == null) {
+                JOptionPane.showMessageDialog(null, "La computadora no existe.");
+                return;
+            }
+
+            PrestamoDTO nuevoPrestamo = new PrestamoDTO(estudiante, computadora);
+            prestamos.add(nuevoPrestamo);
+            JOptionPane.showMessageDialog(null, "Préstamo registrado con éxito.");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al registrar el préstamo: " + e.getMessage());
         }
-
-        String serialComputadora = JOptionPane.showInputDialog("Ingrese el serial del portátil:");
-        ComputadoraDTO computadora = buscarComputadoraPorSerial(serialComputadora);
-
-        if (computadora == null) {
-            JOptionPane.showMessageDialog(null, "La computadora no existe.");
-            return;
-        }
-
-        PrestamoDTO nuevoPrestamo = new PrestamoDTO(estudiante, computadora);
-        prestamos.add(nuevoPrestamo);
-        JOptionPane.showMessageDialog(null, "Préstamo registrado con éxito.");
     }
 
     public static void modificarPrestamo() {
@@ -170,13 +174,15 @@ public class PrestamoDAO {
     }
 
     private static EstudianteDTO buscarEstudiantePorCedula(String cedula) {
-        for (EstudianteDTO estudiante : estudiantes) {
-            if (estudiante.getCedula().equals(cedula)) {
-                JOptionPane.showMessageDialog(null, "Estudiante encontrado:\nCédula: " + estudiante.getCedula() + "\nNombre: " + estudiante.getNombre());
-                return estudiante;
+        try {
+            for (EstudianteDTO estudiante : estudiantes) {
+                if (estudiante.getCedula().equals(cedula)) {
+                    return estudiante;
+                }
             }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al buscar estudiante: " + e.getMessage());
         }
-        JOptionPane.showMessageDialog(null, "Estudiante no encontrado.");
         return null;
     }
 
@@ -213,13 +219,15 @@ public class PrestamoDAO {
     }
 
     private static ComputadoraDTO buscarComputadoraPorSerial(String serial) {
-        for (ComputadoraDTO computadora : computadoras) {
-            if (computadora.getSerial().equalsIgnoreCase(serial)) {
-                JOptionPane.showMessageDialog(null, "Computadora encontrada:\nSerial: " + computadora.getSerial() + "\nMarca: " + computadora.getMarca());
-                return computadora;
+        try {
+            for (ComputadoraDTO computadora : computadoras) {
+                if (computadora.getSerial().equalsIgnoreCase(serial)) {
+                    return computadora;
+                }
             }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al buscar computadora: " + e.getMessage());
         }
-        JOptionPane.showMessageDialog(null, "Computadora no encontrada.");
         return null;
     }
 }
