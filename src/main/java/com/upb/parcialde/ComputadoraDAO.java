@@ -45,15 +45,17 @@ public class ComputadoraDAO {
     }
 
     public static void registrarComputadora() {
+        String sistema = "";
+        String procesador = "";
         while (JOptionPane.showConfirmDialog(null, "¿Desea agregar un computador?") == JOptionPane.YES_OPTION) {
             String serial = JOptionPane.showInputDialog("Ingrese el serial del PC");
             String marca = JOptionPane.showInputDialog("Ingrese la marca del PC");
             float tamano = Float.parseFloat(JOptionPane.showInputDialog("Ingrese el tamaño del PC (DECIMALES CON PUNTO)"));
             float precio = Float.parseFloat(JOptionPane.showInputDialog("Ingrese el precio del PC (DECIMALES CON PUNTO)"));
-            validarSistema();
-            validarProcesador();
+            sistema = validarSistema();
+            procesador = validarProcesador();
 
-            ComputadoraDTO computadora = new ComputadoraDTO(serial, marca, tamano, precio, validarSistema(), validarProcesador());
+            ComputadoraDTO computadora = new ComputadoraDTO(serial, marca, tamano, precio, sistema, procesador);
             arraylistcomputadora.add(computadora);
         }
 
