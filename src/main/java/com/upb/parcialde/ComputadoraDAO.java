@@ -221,23 +221,14 @@ public class ComputadoraDAO {
         return proce;
     }
 
-    public static String totalCompu(ArrayList<ComputadoraDTO> listaCompu) {
-        String cadena = "";
-        int total = 0;
-
-        if (!listaCompu.isEmpty()) {
-            total = listaCompu.size();
-            cadena = "Cantidad de computadoras registradas: " + total;
-            StringBuilder computadorasRegistradas = new StringBuilder("Estos son los computadores actualmente registrados:\n");
-            for (ComputadoraDTO objCont : listaCompu) {
-                computadorasRegistradas.append(objCont.toString()).append("\n");
-            }
-            JOptionPane.showMessageDialog(null, computadorasRegistradas.toString());
+    public static String totalcompu() {
+        if (!arraylistcomputadora.isEmpty()) {
+            int total = arraylistcomputadora.size();
+            String message = "Cantidad de computadores registrados: " + total;
+            JOptionPane.showMessageDialog(null, "Estos son los computadores actualmente registrados: " + total);
+            return message;
         } else {
-            cadena = "No se encontraron datos para buscar";
+            return "No se encontraron datos para buscar";
         }
-
-        return cadena;
     }
-
 }

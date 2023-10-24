@@ -24,6 +24,7 @@ public class Main {
                     break;
                 case 4:
                     prestamoDAO.imprimirInventarioTotal();
+                    ComputadoraDAO.totalcompu();
                     break;
                 case 5:
                     JOptionPane.showMessageDialog(null, "Saliendo del programa.");
