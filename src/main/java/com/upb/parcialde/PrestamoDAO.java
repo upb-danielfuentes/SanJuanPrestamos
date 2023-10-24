@@ -175,7 +175,7 @@ public class PrestamoDAO {
 
     private static EstudianteDTO buscarEstudiantePorCedula(String cedula) {
         try {
-            for (EstudianteDTO estudiante : estudiantes) {
+            for (EstudianteDTO estudiante : EstudianteDAO.arraylistestudiante) {
                 if (estudiante.getCedula().equals(cedula)) {
                     return estudiante;
                 }
@@ -219,7 +219,7 @@ public class PrestamoDAO {
 
     private static ComputadoraDTO buscarComputadoraPorSerial(String serial) {
         try {
-            for (ComputadoraDTO computadora : computadoras) {
+            for (ComputadoraDTO computadora : ComputadoraDAO.arraylistcomputadora) {
                 if (computadora.getSerial().equalsIgnoreCase(serial)) {
                     return computadora;
                 }

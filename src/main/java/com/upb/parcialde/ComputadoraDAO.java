@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ComputadoraDAO {
-    private static List<ComputadoraDTO> arraylistcomputadora = new ArrayList<>();
+    public static List<ComputadoraDTO> arraylistcomputadora = new ArrayList<>();
 
     public void gestionComputadoras() {
         int opcion;

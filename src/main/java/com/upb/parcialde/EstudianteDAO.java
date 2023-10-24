@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EstudianteDAO {
-    private static List<EstudianteDTO> arraylistestudiante = new ArrayList<>();
+    public static List<EstudianteDTO> arraylistestudiante = new ArrayList<>();
 
     public void gestionEstudiantes() {
         int opcion;
