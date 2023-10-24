@@ -7,43 +7,6 @@ import java.util.List;
 public class EstudianteDAO {
     public static List<EstudianteDTO> arraylistestudiante = new ArrayList<>();
 
-    public void gestionEstudiantes() {
-        int opcion;
-        do {
-            opcion = Integer.parseInt(JOptionPane.showInputDialog(
-                    "Menú de Gestión de Estudiantes\n" +
-                            "1. Registrar estudiantes\n" +
-                            "2. Modificar estudiantes\n" +
-                            "3. Eliminar estudiante\n" +
-                            "4. Buscar Estudiante por Cedula\n" +
-                            "5. Imprimir todos los estudiantes\n" +
-                            "6. Volver al menú principal\n" +
-                            "Ingrese su opción:"));
-
-            switch (opcion) {
-                case 1:
-                    registrarEstudiante();
-                    break;
-                case 2:
-                    modificarEstudiante();
-                    break;
-                case 3:
-                    eliminarEstudiante();
-                    break;
-                case 4:
-                    buscarEstudiantePorCedula();
-                    break;
-                case 5:
-                    imprimirEstudiantes();
-                    break;
-                case 6:
-                    break;
-                default:
-                    JOptionPane.showMessageDialog(null, "Opción no válida.");
-            }
-        } while (opcion != 6);
-    }
-
     public static void registrarEstudiante() {
         while (JOptionPane.showConfirmDialog(null, "¿Desea agregar un estudiante?") == JOptionPane.YES_OPTION) {
             String cedula = JOptionPane.showInputDialog("Ingrese la cédula del estudiante");
@@ -176,5 +139,42 @@ public class EstudianteDAO {
         }
 
         JOptionPane.showMessageDialog(null, cadena.toString());
+    }
+
+    public void gestionEstudiantes() {
+        int opcion;
+        do {
+            opcion = Integer.parseInt(JOptionPane.showInputDialog(
+                    "Menú de Gestión de Estudiantes\n" +
+                            "1. Registrar estudiantes\n" +
+                            "2. Modificar estudiantes\n" +
+                            "3. Eliminar estudiante\n" +
+                            "4. Buscar Estudiante por Cedula\n" +
+                            "5. Imprimir todos los estudiantes\n" +
+                            "6. Volver al menú principal\n" +
+                            "Ingrese su opción:"));
+
+            switch (opcion) {
+                case 1:
+                    registrarEstudiante();
+                    break;
+                case 2:
+                    modificarEstudiante();
+                    break;
+                case 3:
+                    eliminarEstudiante();
+                    break;
+                case 4:
+                    buscarEstudiantePorCedula();
+                    break;
+                case 5:
+                    imprimirEstudiantes();
+                    break;
+                case 6:
+                    break;
+                default:
+                    JOptionPane.showMessageDialog(null, "Opción no válida.");
+            }
+        } while (opcion != 6);
     }
 }

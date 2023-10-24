@@ -7,43 +7,6 @@ import java.util.List;
 public class ComputadoraDAO {
     public static List<ComputadoraDTO> arraylistcomputadora = new ArrayList<>();
 
-    public void gestionComputadoras() {
-        int opcion;
-        do {
-            opcion = Integer.parseInt(JOptionPane.showInputDialog(
-                    "Menú de Gestión de Computadoras\n" +
-                            "1. Registrar portátil\n" +
-                            "2. Modificar portátil\n" +
-                            "3. Eliminar portátil\n" +
-                            "4. Buscar portátil por serial\n" +
-                            "5. Imprimir todos los portátiles\n" +
-                            "6. Volver al menú principal\n" +
-                            "Ingrese su opción:"));
-
-            switch (opcion) {
-                case 1:
-                    registrarComputadora();
-                    break;
-                case 2:
-                    modificarComputadora();
-                    break;
-                case 3:
-                    eliminarComputadora();
-                    break;
-                case 4:
-                    buscarComputadoraPorSerial();
-                    break;
-                case 5:
-                    imprimirComputadoras();
-                    break;
-                case 6:
-                    break;
-                default:
-                    JOptionPane.showMessageDialog(null, "Opción no válida.");
-            }
-        } while (opcion != 6);
-    }
-
     public static void registrarComputadora() {
         String sistema = "";
         String procesador = "";
@@ -230,5 +193,42 @@ public class ComputadoraDAO {
         } else {
             return "No se encontraron datos para buscar";
         }
+    }
+
+    public void gestionComputadoras() {
+        int opcion;
+        do {
+            opcion = Integer.parseInt(JOptionPane.showInputDialog(
+                    "Menú de Gestión de Computadoras\n" +
+                            "1. Registrar portátil\n" +
+                            "2. Modificar portátil\n" +
+                            "3. Eliminar portátil\n" +
+                            "4. Buscar portátil por serial\n" +
+                            "5. Imprimir todos los portátiles\n" +
+                            "6. Volver al menú principal\n" +
+                            "Ingrese su opción:"));
+
+            switch (opcion) {
+                case 1:
+                    registrarComputadora();
+                    break;
+                case 2:
+                    modificarComputadora();
+                    break;
+                case 3:
+                    eliminarComputadora();
+                    break;
+                case 4:
+                    buscarComputadoraPorSerial();
+                    break;
+                case 5:
+                    imprimirComputadoras();
+                    break;
+                case 6:
+                    break;
+                default:
+                    JOptionPane.showMessageDialog(null, "Opción no válida.");
+            }
+        } while (opcion != 6);
     }
 }
