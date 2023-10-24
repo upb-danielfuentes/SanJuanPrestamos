@@ -1,15 +1,13 @@
 package com.upb.parcialde;
-import java.util.Date;
 
 public class PrestamoDTO {
     private EstudianteDTO estudiante;
     private ComputadoraDTO computadora;
-    private Date fechaPrestamo;
+
 
     public PrestamoDTO(EstudianteDTO estudiante, ComputadoraDTO computadora) {
         this.estudiante = estudiante;
         this.computadora = computadora;
-        this.fechaPrestamo = new Date();
     }
 
     public EstudianteDTO getEstudiante() {
@@ -26,16 +24,5 @@ public class PrestamoDTO {
 
     public void setPortatil(ComputadoraDTO computadora) {
         this.computadora = computadora;
-    }
-
-    public Date getFechaPrestamo() {
-        return fechaPrestamo;
-    }
-
-    public void setFechaPrestamo(Date fechaPrestamo) {
-        this.fechaPrestamo = fechaPrestamo;
-    }
-
-    public void setFechaPrestamo(String nuevaFechaPrestamo) {
     }
 }

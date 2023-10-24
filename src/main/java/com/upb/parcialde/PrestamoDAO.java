@@ -199,7 +199,6 @@ public class PrestamoDAO {
 
             prestamosText.append("Estudiante: ").append(estudiante.getNombre()).append(" ").append(estudiante.getApellido()).append("\n");
             prestamosText.append("Portátil: ").append(computadora.getMarca()).append(" (Serial: ").append(computadora.getSerial()).append(")\n");
-            prestamosText.append("Fecha de Préstamo: ").append(prestamo.getFechaPrestamo()).append("\n\n");
         }
 
         JOptionPane.showMessageDialog(null, prestamosText.toString());
