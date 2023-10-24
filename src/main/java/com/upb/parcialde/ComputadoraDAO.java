@@ -50,10 +50,10 @@ public class ComputadoraDAO {
             String marca = JOptionPane.showInputDialog("Ingrese la marca del PC");
             float tamano = Float.parseFloat(JOptionPane.showInputDialog("Ingrese el tamaño del PC (DECIMALES CON PUNTO)"));
             float precio = Float.parseFloat(JOptionPane.showInputDialog("Ingrese el precio del PC (DECIMALES CON PUNTO)"));
-            String sistemaOperativo = JOptionPane.showInputDialog("Ingrese el sistema operativo del PC");
-            String procesador = JOptionPane.showInputDialog("Ingrese el procesador del PC");
+            validarSistema();
+            validarProcesador();
 
-            ComputadoraDTO computadora = new ComputadoraDTO(serial, marca, tamano, precio, sistemaOperativo, procesador);
+            ComputadoraDTO computadora = new ComputadoraDTO(serial, marca, tamano, precio, validarSistema(), validarProcesador());
             arraylistcomputadora.add(computadora);
         }
 
@@ -89,10 +89,10 @@ public class ComputadoraDAO {
                         computadora.setPrecio(Float.parseFloat(JOptionPane.showInputDialog("Ingrese el nuevo precio")));
                         break;
                     case 4:
-                        computadora.setSis(JOptionPane.showInputDialog("Ingrese nuevo sistema operativo"));
+                        computadora.setSis(validarSistema());
                         break;
                     case 5:
-                        computadora.setProcesador(JOptionPane.showInputDialog("Ingrese nuevo procesador"));
+                        computadora.setProcesador(validarProcesador());
                         break;
                     case 6:
                         break;
@@ -169,4 +169,73 @@ public class ComputadoraDAO {
         }
         JOptionPane.showMessageDialog(null, cadena.toString());
     }
+
+    private static String validarSistema() {
+        String sistema = "";
+        int opcions = 0;
+
+        do {
+            opcions = Integer.parseInt(JOptionPane.showInputDialog("Elija sistema operativo del PC:\n"
+                    + "1. Windows 7\n" + "2. Windows 10\n" + "3. Windows 11\n"));
+
+            switch (opcions) {
+                case 1:
+                    sistema = "Windows 7";
+                    break;
+                case 2:
+                    sistema = "Windows 10";
+                    break;
+                case 3:
+                    sistema = "Windows 11";
+                    break;
+                default:
+                    JOptionPane.showMessageDialog(null, "Opción incorrecta de Sistema operativo. Por favor, elija 1, 2 o 3.");
+            }
+        } while (opcions != 1 && opcions != 2 && opcions != 3);
+
+        return sistema;
+    }
+
+    private static String validarProcesador() {
+        String proce = "";
+        int opcionp = 0;
+
+        do {
+            opcionp = Integer.parseInt(JOptionPane.showInputDialog("Elija el procesador del PC:\n"
+                    + "1. AMD Ryzen 7\n" + "2. Intel Core I5\n"));
+
+            switch (opcionp) {
+                case 1:
+                    proce = "AMD Ryzen 7";
+                    break;
+                case 2:
+                    proce = "Intel Core I5";
+                    break;
+                default:
+                    JOptionPane.showMessageDialog(null, "Opción no válida. Por favor, elija 1 o 2.");
+            }
+        } while (opcionp != 1 && opcionp != 2);
+
+        return proce;
+    }
+
+    public static String totalCompu(ArrayList<ComputadoraDTO> listaCompu) {
+        String cadena = "";
+        int total = 0;
+
+        if (!listaCompu.isEmpty()) {
+            total = listaCompu.size();
+            cadena = "Cantidad de computadoras registradas: " + total;
+            StringBuilder computadorasRegistradas = new StringBuilder("Estos son los computadores actualmente registrados:\n");
+            for (ComputadoraDTO objCont : listaCompu) {
+                computadorasRegistradas.append(objCont.toString()).append("\n");
+            }
+            JOptionPane.showMessageDialog(null, computadorasRegistradas.toString());
+        } else {
+            cadena = "No se encontraron datos para buscar";
+        }
+
+        return cadena;
+    }
+
 }
